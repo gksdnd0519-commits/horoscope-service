@@ -89,11 +89,9 @@ const DRAW = {
     `<ellipse cx="28" cy="54" rx="11" ry="6" transform="rotate(-20 28 54)" fill="#e8a27a" ${O}/>` +
     `<ellipse cx="92" cy="54" rx="11" ry="6" transform="rotate(20 92 54)" fill="#e8a27a" ${O}/>` +
     `<ellipse cx="60" cy="64" rx="32" ry="30" fill="#f2b98c" ${O}/>` +
-    `<ellipse cx="60" cy="83" rx="18" ry="10" fill="#ffd9c4" ${O}/>` +
-    `<circle cx="54" cy="83" r="2.2" fill="${INK}"/><circle cx="66" cy="83" r="2.2" fill="${INK}"/>` +
     [0, 72, 144, 216, 288].map((a) => `<circle cx="${(72 + 5 * Math.cos(a * Math.PI / 180)).toFixed(1)}" cy="${(36 + 5 * Math.sin(a * Math.PI / 180)).toFixed(1)}" r="4" fill="#ffa3c0" ${O}/>`).join("") +
     `<circle cx="72" cy="36" r="3" fill="#ffd84d"/>` +
-    face(60, 58, 0.9),
+    face(60, 66, 0.95),
 
   gemini: () =>
     `<path d="M42 48 L38 30" fill="none" ${O}/><path d="M78 48 L82 30" fill="none" ${O}/>` +
@@ -155,9 +153,7 @@ const DRAW = {
     `<path d="M36 46 L40 22 L54 38z" fill="#c9b6ff" ${O}/><path d="M84 46 L80 22 L66 38z" fill="#c9b6ff" ${O}/>` +
     `<ellipse cx="60" cy="64" rx="30" ry="28" fill="#ddd0ff" ${O}/>` +
     `<circle cx="51" cy="38" r="8" fill="#7c5cd6" ${O}/><circle cx="69" cy="38" r="8" fill="#7c5cd6" ${O}/><circle cx="60" cy="34" r="9" fill="#7c5cd6" ${O}/>` +
-    `<ellipse cx="60" cy="81" rx="16" ry="9" fill="#f3eeff" ${O}/>` +
-    `<circle cx="55" cy="81" r="2" fill="${INK}"/><circle cx="65" cy="81" r="2" fill="${INK}"/>` +
-    face(60, 60, 0.85),
+    face(60, 66, 0.9),
 
   capricorn: () =>
     `<path d="M46 42 C40 18, 22 14, 16 28 C26 22, 34 28, 38 46Z" fill="#d8c3a5" ${O}/>` +
@@ -167,8 +163,7 @@ const DRAW = {
     `<path d="M52 86 q8 24 16 0z" fill="#e8dfd2" ${O}/>` +
     `<ellipse cx="60" cy="64" rx="28" ry="29" fill="#fbf8f4" ${O}/>` +
     `<circle cx="54" cy="38" r="6" fill="#fff" ${O}/><circle cx="66" cy="38" r="6" fill="#fff" ${O}/>` +
-    `<ellipse cx="60" cy="80" rx="4" ry="2.6" fill="#ff9fb5"/>` +
-    face(60, 62, 0.85),
+    face(60, 66, 0.9),
 
   aquarius: () =>
     limb("M88 56 q18 2 14 22 q-3 12 -16 10", "#7fc4f0", 4) +
@@ -189,9 +184,9 @@ const DRAW = {
 
 // 눈 위치 [가운데 x, y, 크기] — 안경·선글라스를 씌울 자리
 const EYES = {
-  aries: [[60, 66, 0.85]], taurus: [[60, 58, 0.9]], gemini: [[42, 68, 0.7], [78, 68, 0.7]],
+  aries: [[60, 66, 0.85]], taurus: [[60, 66, 0.95]], gemini: [[42, 68, 0.7], [78, 68, 0.7]],
   cancer: [[60, 39, 1.3]], leo: [[60, 62, 0.9]], virgo: [[60, 74, 0.85]], libra: [[60, 68, 0.9]],
-  scorpio: [[60, 68, 0.9]], sagittarius: [[60, 60, 0.85]], capricorn: [[60, 62, 0.85]],
+  scorpio: [[60, 68, 0.9]], sagittarius: [[60, 66, 0.9]], capricorn: [[60, 66, 0.9]],
   aquarius: [[60, 64, 0.9]], pisces: [[46, 64, 0.85]],
 };
 
