@@ -46,14 +46,80 @@ h1, h2, h3 { line-height: 1.25; margin: 0; }
 
 /* ---------- 상단 ---------- */
 .hero {
-  background: var(--bg-hero);
+  position: relative;
+  overflow: hidden;
+  /* 반짝이는 별 점 배경 */
+  background:
+    radial-gradient(circle at 12% 22%, #fff 0 1.5px, transparent 2px),
+    radial-gradient(circle at 85% 15%, #fff 0 1.2px, transparent 1.8px),
+    radial-gradient(circle at 72% 62%, #ffe9a8 0 1.5px, transparent 2px),
+    radial-gradient(circle at 25% 75%, #ffd1e8 0 1.2px, transparent 1.8px),
+    radial-gradient(circle at 50% 8%, #fff 0 1px, transparent 1.6px),
+    radial-gradient(circle at 92% 82%, #fff 0 1.2px, transparent 1.8px),
+    var(--bg-hero);
   color: #fff;
-  padding: 48px 16px 40px;
+  padding: 40px 16px 40px;
   text-align: center;
 }
-.hero h1 { font-size: clamp(28px, 7vw, 40px); letter-spacing: -0.02em; }
-.eyebrow { margin: 0 0 8px; font-size: 14px; opacity: 0.8; }
-.lead { margin: 10px auto 24px; max-width: 34em; opacity: 0.9; }
+.lead { margin: 12px auto 24px; max-width: 34em; opacity: 0.95; font-family: "Jua", sans-serif; font-size: 17px; }
+.lead mark { background: linear-gradient(transparent 55%, rgba(255, 216, 77, 0.55) 55%); color: inherit; padding: 0 2px; }
+
+/* ---------- 이벤트 타이틀 ---------- */
+.event-badge {
+  display: inline-block;
+  margin: 0 0 14px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: #ffd84d;
+  color: #3a2f4a;
+  font-family: "Jua", sans-serif;
+  font-size: 15px;
+  box-shadow: 0 3px 0 #e0a800;
+  transform: rotate(-2deg);
+  animation: bob 2.4s ease-in-out infinite;
+}
+.event-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 0;
+}
+.title-main {
+  font-family: "Black Han Sans", "Jua", sans-serif;
+  font-weight: 400;
+  font-size: clamp(48px, 13vw, 76px);
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  background: linear-gradient(180deg, #fff6c2 0%, #ffd84d 45%, #ff9ec7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 2px #3a2f4a;
+  paint-order: stroke fill;
+  filter: drop-shadow(0 5px 0 #3a2f4a) drop-shadow(0 10px 18px rgba(255, 158, 199, 0.45));
+}
+.spark {
+  color: #ffd84d;
+  font-size: clamp(22px, 6vw, 34px);
+  text-shadow: 0 0 12px rgba(255, 216, 77, 0.9);
+  animation: twinkle 1.6s ease-in-out infinite;
+}
+.spark:last-child { animation-delay: 0.8s; }
+.event-sub {
+  margin: 12px 0 0;
+  font-family: "Jua", sans-serif;
+  font-size: clamp(18px, 5vw, 24px);
+  color: #fff;
+  text-shadow: 0 2px 0 #3a2f4a;
+}
+.event-sub b { color: #ff9ec7; font-weight: 400; }
+
+@keyframes bob { 0%, 100% { transform: rotate(-2deg) translateY(0); } 50% { transform: rotate(-2deg) translateY(-4px); } }
+@keyframes twinkle { 0%, 100% { opacity: 1; transform: scale(1) rotate(0); } 50% { opacity: 0.5; transform: scale(0.75) rotate(45deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .event-badge, .spark { animation: none; }
+}
 
 .birth-form {
   display: flex;
@@ -64,7 +130,7 @@ h1, h2, h3 { line-height: 1.25; margin: 0; }
   max-width: 480px;
   margin: 0 auto;
 }
-.birth-form label { display: grid; gap: 4px; text-align: left; flex: 1 1 120px; font-size: 13px; }
+.birth-form label { display: grid; gap: 4px; text-align: left; flex: 1 1 120px; font-size: 14px; font-family: "Jua", sans-serif; }
 .birth-form select { width: 100%; }
 
 select {
@@ -83,10 +149,14 @@ button { font: inherit; cursor: pointer; }
   border: 0;
   border-radius: 12px;
   padding: 13px 20px;
-  background: var(--gold);
-  color: #1d1a2e;
-  font-weight: 700;
+  background: linear-gradient(180deg, #ffe27a, #ffc53d);
+  color: #3a2f4a;
+  font-family: "Jua", sans-serif;
+  font-size: 18px;
+  box-shadow: 0 4px 0 #d99a00;
+  transition: transform .1s, box-shadow .1s;
 }
+.btn-primary:active { transform: translateY(3px); box-shadow: 0 1px 0 #d99a00; }
 .btn-primary:hover { filter: brightness(1.05); }
 .btn-ghost {
   margin-left: auto;
@@ -102,7 +172,8 @@ button:focus-visible, select:focus-visible { outline: 3px solid var(--accent); o
 
 /* ---------- 본문 ---------- */
 main { max-width: 720px; margin: 0 auto; padding: 28px 16px 40px; }
-.section-title { font-size: 15px; color: var(--muted); font-weight: 600; margin-bottom: 12px; }
+.section-title { text-align: center; margin-bottom: 14px; font-family: "Jua", sans-serif; font-weight: 400; font-size: 20px; }
+.section-title span { background: linear-gradient(transparent 60%, rgba(164, 139, 255, 0.35) 60%); padding: 0 4px; }
 .muted { color: var(--muted); margin: 2px 0 0; font-size: 14px; }
 
 .sign-grid {
@@ -123,7 +194,7 @@ main { max-width: 720px; margin: 0 auto; padding: 28px 16px 40px; }
 }
 .sign-btn .char-sm { width: 64px; }
 .char-sm svg, .char-lg svg, .result-char svg, .match-pair svg { display: block; width: 100%; height: auto; }
-.sign-btn .nm { font-size: 14px; font-weight: 600; }
+.sign-btn .nm { font-size: 15px; font-family: "Jua", sans-serif; }
 .sign-btn .dt { font-size: 11px; color: var(--muted); }
 .sign-btn[aria-pressed="true"] { border-color: var(--accent); outline: 2px solid var(--accent); }
 
@@ -137,7 +208,7 @@ main { max-width: 720px; margin: 0 auto; padding: 28px 16px 40px; }
 }
 .result-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
 .result-char { width: 64px; flex: none; }
-.result-head h2 { font-size: 22px; }
+.result-head h2 { font-size: 26px; font-family: "Jua", sans-serif; font-weight: 400; }
 
 .tabs { display: flex; gap: 4px; background: var(--surface-2); padding: 4px; border-radius: 12px; margin-bottom: 18px; }
 .tabs button {
@@ -147,8 +218,8 @@ main { max-width: 720px; margin: 0 auto; padding: 28px 16px 40px; }
   color: var(--muted);
   padding: 9px 4px;
   border-radius: 9px;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 15px;
+  font-family: "Jua", sans-serif;
 }
 .tabs button[aria-selected="true"] { background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
 
@@ -156,7 +227,7 @@ main { max-width: 720px; margin: 0 auto; padding: 28px 16px 40px; }
 .fortune-list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
 .fortune-item { border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
 .fortune-item header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-.fortune-item h3 { font-size: 15px; }
+.fortune-item h3 { font-size: 17px; font-family: "Jua", sans-serif; font-weight: 400; }
 .fortune-item p { margin: 0; }
 .stars { color: var(--gold); letter-spacing: 2px; font-size: 15px; }
 .stars .off { color: var(--star-off); }
@@ -169,13 +240,13 @@ main { max-width: 720px; margin: 0 auto; padding: 28px 16px 40px; }
 }
 .lucky div { background: var(--surface-2); border-radius: 12px; padding: 10px; text-align: center; }
 .lucky dt { font-size: 12px; color: var(--muted); }
-.lucky dd { margin: 2px 0 0; font-weight: 700; }
+.lucky dd { margin: 2px 0 0; font-family: "Jua", sans-serif; font-size: 17px; }
 
 /* ---------- 프로필 ---------- */
 .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
 .chip { background: var(--surface-2); border-radius: 999px; padding: 4px 12px; font-size: 13px; }
 .profile-block + .profile-block { margin-top: 16px; }
-.profile-block h3 { font-size: 15px; margin-bottom: 4px; color: var(--accent); }
+.profile-block h3 { font-size: 18px; margin-bottom: 4px; color: var(--accent); font-family: "Jua", sans-serif; font-weight: 400; }
 .profile-block p { margin: 0; }
 
 /* ---------- 궁합 ---------- */
@@ -184,8 +255,12 @@ main { max-width: 720px; margin: 0 auto; padding: 28px 16px 40px; }
 .match-pair { display: flex; align-items: center; justify-content: center; gap: 6px; }
 .match-pair svg { width: 96px; }
 .match-pair span { color: #ff6fa5; font-size: 22px; }
-.match-score { font-size: 44px; font-weight: 800; color: var(--accent); line-height: 1.1; margin: 6px 0; }
-.match-card h3 { font-size: 18px; margin-bottom: 8px; }
+.match-score {
+  font-family: "Black Han Sans", sans-serif; font-size: 56px; line-height: 1.1; margin: 6px 0;
+  background: linear-gradient(180deg, #ffd84d, #ff7fa8); -webkit-background-clip: text; background-clip: text; color: transparent;
+  -webkit-text-stroke: 1.5px #3a2f4a; paint-order: stroke fill;
+}
+.match-card h3 { font-size: 22px; margin-bottom: 8px; font-family: "Jua", sans-serif; font-weight: 400; }
 .match-card p { margin: 0; text-align: left; }
 .meter { height: 8px; background: var(--surface-2); border-radius: 99px; overflow: hidden; margin: 8px auto 14px; max-width: 260px; }
 .meter span { display: block; height: 100%; background: var(--accent); border-radius: 99px; }
@@ -193,8 +268,21 @@ main { max-width: 720px; margin: 0 auto; padding: 28px 16px 40px; }
 /* ---------- 별자리 × MBTI ---------- */
 .blend-card { text-align: center; border: 1px solid var(--line); border-radius: 14px; padding: 20px 16px; }
 .char-lg { width: min(200px, 60%); margin: 0 auto 6px; }
-.blend-kicker { margin: 0; font-size: 13px; font-weight: 700; color: var(--accent); letter-spacing: 0.06em; }
-.blend-title { font-size: 22px; margin: 2px 0 12px; }
+.blend-kicker {
+  display: inline-block; margin: 4px 0 0; padding: 4px 14px;
+  background: var(--accent); color: var(--accent-text); border-radius: 999px;
+  font-family: "Jua", sans-serif; font-size: 15px; letter-spacing: 0.04em;
+  transform: rotate(-1.5deg);
+}
+.blend-title {
+  margin: 10px 0 14px;
+  font-family: "Black Han Sans", "Jua", sans-serif; font-weight: 400;
+  font-size: clamp(26px, 7vw, 34px); line-height: 1.2;
+  background: linear-gradient(180deg, #fff6c2 0%, #ffd84d 45%, #ff9ec7 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  -webkit-text-stroke: 1.5px #3a2f4a; paint-order: stroke fill;
+  filter: drop-shadow(0 3px 0 #3a2f4a);
+}
 .blend-card .chips { justify-content: center; }
 .blend-card > p { text-align: left; margin: 0 0 8px; }
 .partner {
@@ -203,6 +291,7 @@ main { max-width: 720px; margin: 0 auto; padding: 28px 16px 40px; }
   background: var(--surface-2); border-radius: 12px; text-align: left;
 }
 .partner .char-sm { width: 64px; flex: none; }
+.partner strong { font-family: "Jua", sans-serif; font-weight: 400; font-size: 17px; color: #ff6fa5; }
 .partner p { margin: 2px 0 0; font-size: 14px; }
 
 footer { text-align: center; color: var(--muted); font-size: 13px; padding: 0 16px 40px; }

@@ -271,8 +271,8 @@ function toast(msg) {
 }
 
 /* ---------- 시작 ---------- */
-const [y, mo, d] = today.split("-");
-$("#today-label").textContent = `${y}년 ${Number(mo)}월 ${Number(d)}일 오늘의 별자리 운세`;
+const [, mo, d] = today.split("-");
+$("#today-label").textContent = `${Number(mo)}월 ${Number(d)}일 오늘의 별자리 운세`;
 setupForm();
 setupGrid();
 setupTabs();

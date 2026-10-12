@@ -9,13 +9,21 @@
   <meta property="og:description" content="생년월일로 내 별자리 찾고 오늘의 운세·궁합 보기">
   <meta name="theme-color" content="#14122b">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&display=swap">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
   <header class="hero">
-    <p class="eyebrow" id="today-label"></p>
-    <h1>별빛 운세</h1>
-    <p class="lead">생년월일과 MBTI로 나만의 별자리 캐릭터를 만나고 오늘의 운세를 확인하세요.</p>
+    <p class="event-badge"><span aria-hidden="true">🎉</span> <span id="today-label"></span> <span aria-hidden="true">🎉</span></p>
+    <h1 class="event-title">
+      <span class="spark" aria-hidden="true">✦</span>
+      <span class="title-main">별빛 운세</span>
+      <span class="spark" aria-hidden="true">✦</span>
+    </h1>
+    <p class="event-sub">별자리 <b>×</b> MBTI 캐릭터 대공개!</p>
+    <p class="lead">생년월일과 MBTI로 <mark>나만의 별자리 캐릭터</mark>를 만나고 오늘의 운세를 확인하세요.</p>
 
     <form id="birth-form" class="birth-form" autocomplete="off">
       <label>
@@ -36,7 +44,7 @@
 
   <main>
     <section aria-labelledby="pick-title">
-      <h2 id="pick-title" class="section-title">또는 별자리 직접 선택</h2>
+      <h2 id="pick-title" class="section-title"><span>⭐ 또는 별자리 직접 선택 ⭐</span></h2>
       <div id="sign-grid" class="sign-grid" role="list"></div>
     </section>
 
