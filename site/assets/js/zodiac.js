@@ -150,11 +150,12 @@ export function getSign(id) {
   return BY_ID[id];
 }
 
-/** 별자리 기간을 "3월 21일 ~ 4월 19일" 형식으로 돌려준다. */
-export function signPeriod(sign) {
+/** 별자리 기간을 "3월 21일 ~ 4월 19일" (short면 "3.21~4.19") 형식으로 돌려준다. */
+export function signPeriod(sign, { short = false } = {}) {
   const next = SIGNS[(SIGNS.indexOf(sign) + 1) % SIGNS.length];
   const end = new Date(2001, next.start[0] - 1, next.start[1] - 1); // 평년 기준 전날
-  return `${sign.start[0]}월 ${sign.start[1]}일 ~ ${end.getMonth() + 1}월 ${end.getDate()}일`;
+  const [m1, d1, m2, d2] = [sign.start[0], sign.start[1], end.getMonth() + 1, end.getDate()];
+  return short ? `${m1}.${d1}~${m2}.${d2}` : `${m1}월 ${d1}일 ~ ${m2}월 ${d2}일`;
 }
 
 /** 월(1~12), 일로 별자리를 찾는다. 범위를 벗어나면 null. */

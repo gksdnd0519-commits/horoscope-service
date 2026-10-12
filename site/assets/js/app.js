@@ -1,7 +1,9 @@
-// 화면 렌더링과 이벤트 처리. 상태는 URL(?sign=leo&tab=today&with=aries)에 담아 공유 가능하게 한다.
+// 화면 렌더링과 이벤트 처리. 상태는 URL(?sign=leo&mbti=ENFP&tab=blend&with=aries)에 담아 공유 가능하게 한다.
 
 import { SIGNS, ELEMENTS, getSign, signFromDate, signPeriod } from "./zodiac.js";
 import { dailyFortune, compatibility, todayKST } from "./fortune.js";
+import { characterSVG, MASCOTS } from "./characters.js";
+import { MBTI_TYPES, isMbti, blend } from "./mbti.js";
 
 const $ = (sel) => document.querySelector(sel);
 const el = (tag, cls, text) => {
@@ -12,7 +14,8 @@ const el = (tag, cls, text) => {
 };
 
 const today = todayKST();
-const state = { sign: null, tab: "today", with: null };
+const state = { sign: null, tab: "today", with: null, mbti: null };
+const TABS = ["today", "blend", "profile", "match"];
 
 function stars(score) {
   const wrap = el("span", "stars");
@@ -37,12 +40,16 @@ function setupForm() {
   };
   month.addEventListener("change", fillDays);
   fillDays();
+  const mbti = $("#birth-mbti");
+  mbti.append(new Option("모름", ""));
+  for (const t of MBTI_TYPES) mbti.append(new Option(t, t));
 
   $("#birth-form").addEventListener("submit", (e) => {
     e.preventDefault();
     const sign = signFromDate(Number(month.value), Number(day.value));
     if (!sign) return toast("태어난 달과 날을 선택해 주세요.");
-    select(sign.id, "today");
+    if (mbti.value) state.mbti = mbti.value;
+    select(sign.id, mbti.value ? "blend" : "today");
   });
 }
 
@@ -54,7 +61,9 @@ function setupGrid() {
     btn.dataset.sign = s.id;
     btn.setAttribute("role", "listitem");
     btn.setAttribute("aria-pressed", "false");
-    btn.append(el("span", "sym", s.symbol), el("span", "nm", s.name), el("span", "dt", signPeriod(s)));
+    const pic = el("span", "char-sm");
+    pic.innerHTML = characterSVG(s);
+    btn.append(pic, el("span", "nm", s.name), el("span", "dt", signPeriod(s, { short: true })));
     btn.addEventListener("click", () => select(s.id, state.tab));
     grid.append(btn);
   }
@@ -71,6 +80,13 @@ function setupTabs() {
   for (const s of SIGNS) sel.append(new Option(`${s.symbol} ${s.name}`, s.id));
   sel.addEventListener("change", () => {
     state.with = sel.value;
+    render();
+  });
+  const blendSel = $("#blend-select");
+  blendSel.append(new Option("MBTI를 골라 주세요", ""));
+  for (const t of MBTI_TYPES) blendSel.append(new Option(t, t));
+  blendSel.addEventListener("change", () => {
+    state.mbti = blendSel.value || null;
     render();
   });
   $("#share-btn").addEventListener("click", share);
@@ -104,6 +120,44 @@ function renderToday(sign) {
   panel.replaceChildren(list, lucky);
 }
 
+function renderBlend(sign) {
+  $("#blend-select").value = state.mbti ?? "";
+  const box = $("#blend-result");
+  if (!state.mbti) {
+    box.replaceChildren(el("p", "muted", "MBTI를 고르면 별자리와 섞인 나만의 캐릭터가 나타나요."));
+    return;
+  }
+  const b = blend(sign.id, state.mbti);
+  const card = el("div", "blend-card");
+  const pic = el("div", "char-lg");
+  pic.innerHTML = characterSVG(sign, { mbti: b.mbti });
+  const chips = el("div", "chips");
+  chips.append(
+    el("span", "chip", `${b.group.name} · ${b.group.item}`),
+    el("span", "chip", `${b.element}의 별자리`),
+    ...b.strengths.map((k) => el("span", "chip", `#${k}`)),
+  );
+  const partner = el("div", "partner");
+  const pPic = el("div", "char-sm");
+  pPic.innerHTML = characterSVG(b.partner.sign, { mbti: b.partner.mbti });
+  const pText = el("div");
+  pText.append(
+    el("strong", null, "찰떡 짝꿍"),
+    el("p", null, `${b.partner.mbti} ${b.partner.sign.name} · ${b.partner.title}`),
+  );
+  partner.append(pPic, pText);
+  card.append(
+    pic,
+    el("p", "blend-kicker", `${b.mbti} × ${sign.name}`),
+    el("h3", "blend-title", `${b.title} ‘${b.mascot.name}’`),
+    chips,
+    el("p", null, b.intro),
+    el("p", null, b.blend),
+    partner,
+  );
+  box.replaceChildren(card);
+}
+
 function renderProfile(sign) {
   const panel = document.querySelector('[data-panel="profile"]');
   const chips = el("div", "chips");
@@ -133,12 +187,14 @@ function renderMatch(sign) {
   sel.value = state.with;
   const m = compatibility(sign.id, state.with);
   const card = el("div", "match-card");
+  const pair = el("div", "match-pair");
+  pair.innerHTML = characterSVG(m.a) + `<span aria-hidden="true">♥</span>` + characterSVG(m.b);
   const meter = el("div", "meter");
   const bar = el("span");
   bar.style.width = `${m.score}%`;
   meter.append(bar);
   card.append(
-    el("div", "match-pair", `${m.a.symbol}${m.b.symbol}`),
+    pair,
     el("p", "muted", `${m.a.name} × ${m.b.name} · ${m.elements}`),
     el("div", "match-score", `${m.score}점`),
     meter,
@@ -153,8 +209,8 @@ function render() {
   if (!state.sign) return;
   const sign = getSign(state.sign);
   $("#result").hidden = false;
-  $("#result-symbol").textContent = sign.symbol;
-  $("#result-name").textContent = sign.name;
+  $("#result-char").innerHTML = characterSVG(sign, { mbti: state.mbti ?? undefined });
+  $("#result-name").textContent = `${sign.name} ${MASCOTS[sign.id].name}`;
   $("#result-meta").textContent = `${signPeriod(sign)} · ${ELEMENTS[sign.element].name}의 별자리`;
   document.title = `${sign.name} 오늘의 운세 · 별빛 운세`;
 
@@ -167,6 +223,7 @@ function render() {
   for (const p of document.querySelectorAll(".panel")) p.hidden = p.dataset.panel !== state.tab;
 
   if (state.tab === "today") renderToday(sign);
+  else if (state.tab === "blend") renderBlend(sign);
   else if (state.tab === "profile") renderProfile(sign);
   else renderMatch(sign);
 }
@@ -175,13 +232,15 @@ function render() {
 function readUrl() {
   const p = new URLSearchParams(location.search);
   if (getSign(p.get("sign"))) state.sign = p.get("sign");
-  if (["today", "profile", "match"].includes(p.get("tab"))) state.tab = p.get("tab");
+  if (TABS.includes(p.get("tab"))) state.tab = p.get("tab");
+  if (isMbti(p.get("mbti"))) state.mbti = p.get("mbti").toUpperCase();
   if (getSign(p.get("with"))) state.with = p.get("with");
 }
 
 function syncUrl() {
   const p = new URLSearchParams();
   if (state.sign) p.set("sign", state.sign);
+  if (state.mbti) p.set("mbti", state.mbti);
   if (state.sign && state.tab !== "today") p.set("tab", state.tab);
   if (state.tab === "match" && state.with) p.set("with", state.with);
   const qs = p.toString();

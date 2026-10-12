@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>별빛 운세</title>
-  <meta name="description" content="생년월일만 넣으면 내 별자리와 오늘의 운세, 궁합까지 한 번에 보는 무료 별자리 운세">
+  <meta name="description" content="생년월일과 MBTI로 만나는 귀여운 별자리 캐릭터, 오늘의 운세와 궁합까지 한 번에">
   <meta property="og:title" content="별빛 운세 — 오늘의 별자리 운세">
   <meta property="og:description" content="생년월일로 내 별자리 찾고 오늘의 운세·궁합 보기">
   <meta name="theme-color" content="#14122b">
@@ -15,7 +15,7 @@
   <header class="hero">
     <p class="eyebrow" id="today-label"></p>
     <h1>별빛 운세</h1>
-    <p class="lead">생년월일로 내 별자리를 찾고 오늘의 운세를 확인하세요.</p>
+    <p class="lead">생년월일과 MBTI로 나만의 별자리 캐릭터를 만나고 오늘의 운세를 확인하세요.</p>
 
     <form id="birth-form" class="birth-form" autocomplete="off">
       <label>
@@ -25,6 +25,10 @@
       <label>
         <span>태어난 날</span>
         <select id="birth-day" required></select>
+      </label>
+      <label>
+        <span>MBTI (선택)</span>
+        <select id="birth-mbti"></select>
       </label>
       <button type="submit" class="btn-primary">운세 보기</button>
     </form>
@@ -38,7 +42,7 @@
 
     <section id="result" class="result" hidden>
       <div class="result-head">
-        <span class="result-symbol" id="result-symbol" aria-hidden="true"></span>
+        <span class="result-char" id="result-char"></span>
         <div>
           <h2 id="result-name"></h2>
           <p class="muted" id="result-meta"></p>
@@ -48,11 +52,19 @@
 
       <div class="tabs" role="tablist">
         <button role="tab" data-tab="today" aria-selected="true">오늘의 운세</button>
-        <button role="tab" data-tab="profile" aria-selected="false">별자리 프로필</button>
+        <button role="tab" data-tab="blend" aria-selected="false">별자리×MBTI</button>
+        <button role="tab" data-tab="profile" aria-selected="false">프로필</button>
         <button role="tab" data-tab="match" aria-selected="false">궁합</button>
       </div>
 
       <div class="panel" data-panel="today"></div>
+      <div class="panel" data-panel="blend" hidden>
+        <label class="match-pick">
+          <span>내 MBTI</span>
+          <select id="blend-select"></select>
+        </label>
+        <div id="blend-result"></div>
+      </div>
       <div class="panel" data-panel="profile" hidden></div>
       <div class="panel" data-panel="match" hidden>
         <label class="match-pick">

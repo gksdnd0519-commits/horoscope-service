@@ -37,6 +37,7 @@ test("1년 366일이 빠짐없이 12별자리에 배정된다", () => {
 test("기간 표기", () => {
   assert.equal(signPeriod(SIGNS.find((s) => s.id === "capricorn")), "12월 25일 ~ 1월 19일");
   assert.equal(signPeriod(SIGNS.find((s) => s.id === "aquarius")), "1월 20일 ~ 2월 18일");
+  assert.equal(signPeriod(SIGNS.find((s) => s.id === "capricorn"), { short: true }), "12.25~1.19");
 });
 
 test("오늘의 운세는 같은 날·같은 별자리면 항상 같고, 날짜가 바뀌면 달라진다", () => {

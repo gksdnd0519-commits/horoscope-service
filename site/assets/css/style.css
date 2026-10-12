@@ -121,7 +121,8 @@ main { max-width: 720px; margin: 0 auto; padding: 28px 16px 40px; }
   color: var(--text);
   box-shadow: var(--shadow);
 }
-.sign-btn .sym { font-size: 24px; line-height: 1; }
+.sign-btn .char-sm { width: 64px; }
+.char-sm svg, .char-lg svg, .result-char svg, .match-pair svg { display: block; width: 100%; height: auto; }
 .sign-btn .nm { font-size: 14px; font-weight: 600; }
 .sign-btn .dt { font-size: 11px; color: var(--muted); }
 .sign-btn[aria-pressed="true"] { border-color: var(--accent); outline: 2px solid var(--accent); }
@@ -135,13 +136,7 @@ main { max-width: 720px; margin: 0 auto; padding: 28px 16px 40px; }
   box-shadow: var(--shadow);
 }
 .result-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-.result-symbol {
-  display: grid; place-items: center;
-  width: 52px; height: 52px; flex: none;
-  border-radius: 50%;
-  background: var(--surface-2);
-  font-size: 28px;
-}
+.result-char { width: 64px; flex: none; }
 .result-head h2 { font-size: 22px; }
 
 .tabs { display: flex; gap: 4px; background: var(--surface-2); padding: 4px; border-radius: 12px; margin-bottom: 18px; }
@@ -186,12 +181,29 @@ main { max-width: 720px; margin: 0 auto; padding: 28px 16px 40px; }
 /* ---------- 궁합 ---------- */
 .match-pick { display: grid; gap: 4px; font-size: 13px; color: var(--muted); margin-bottom: 16px; }
 .match-card { text-align: center; border: 1px solid var(--line); border-radius: 14px; padding: 20px 14px; }
-.match-pair { font-size: 30px; letter-spacing: 6px; }
+.match-pair { display: flex; align-items: center; justify-content: center; gap: 6px; }
+.match-pair svg { width: 96px; }
+.match-pair span { color: #ff6fa5; font-size: 22px; }
 .match-score { font-size: 44px; font-weight: 800; color: var(--accent); line-height: 1.1; margin: 6px 0; }
 .match-card h3 { font-size: 18px; margin-bottom: 8px; }
 .match-card p { margin: 0; text-align: left; }
 .meter { height: 8px; background: var(--surface-2); border-radius: 99px; overflow: hidden; margin: 8px auto 14px; max-width: 260px; }
 .meter span { display: block; height: 100%; background: var(--accent); border-radius: 99px; }
+
+/* ---------- 별자리 × MBTI ---------- */
+.blend-card { text-align: center; border: 1px solid var(--line); border-radius: 14px; padding: 20px 16px; }
+.char-lg { width: min(200px, 60%); margin: 0 auto 6px; }
+.blend-kicker { margin: 0; font-size: 13px; font-weight: 700; color: var(--accent); letter-spacing: 0.06em; }
+.blend-title { font-size: 22px; margin: 2px 0 12px; }
+.blend-card .chips { justify-content: center; }
+.blend-card > p { text-align: left; margin: 0 0 8px; }
+.partner {
+  display: flex; align-items: center; gap: 12px;
+  margin-top: 14px; padding: 12px;
+  background: var(--surface-2); border-radius: 12px; text-align: left;
+}
+.partner .char-sm { width: 64px; flex: none; }
+.partner p { margin: 2px 0 0; font-size: 14px; }
 
 footer { text-align: center; color: var(--muted); font-size: 13px; padding: 0 16px 40px; }
 
