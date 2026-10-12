@@ -294,6 +294,119 @@ main { max-width: 720px; margin: 0 auto; padding: 28px 16px 40px; }
 .partner strong { font-family: "Jua", sans-serif; font-weight: 400; font-size: 17px; color: #ff6fa5; }
 .partner p { margin: 2px 0 0; font-size: 14px; }
 
+/* ---------- 옆에 서 있는 캐릭터들 ---------- */
+.pal {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  pointer-events: auto;
+}
+.pal-body {
+  display: block;
+  width: 100%;
+  transform-origin: 50% 100%;
+  animation: hop 1.6s ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+.pal-body svg { display: block; width: 100%; height: auto; overflow: visible; }
+.pal-shadow {
+  width: 60%;
+  height: 8px;
+  margin-top: -6px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.22);
+  animation: shadow 1.6s ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+/* 말풍선 */
+.pal::before {
+  content: attr(data-say);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translate(-50%, 6px) scale(0.8);
+  padding: 6px 12px;
+  border-radius: 14px;
+  background: #fff;
+  color: #3a2f4a;
+  border: 2px solid #3a2f4a;
+  font-family: "Jua", sans-serif;
+  font-size: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .15s, transform .15s;
+}
+.pal:hover::before, .pal:focus-visible::before { opacity: 1; transform: translate(-50%, -4px) scale(1); }
+.pal:hover .pal-body { animation: wiggle .5s ease-in-out infinite; }
+.pal:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; border-radius: 12px; }
+
+@keyframes hop {
+  0%, 55%, 100% { transform: translateY(0) scale(1, 1); }
+  10% { transform: translateY(0) scale(1.08, 0.9); }
+  30% { transform: translateY(-14px) scale(0.95, 1.05); }
+  48% { transform: translateY(0) scale(1.06, 0.94); }
+}
+@keyframes shadow {
+  0%, 55%, 100% { transform: scale(1); opacity: 1; }
+  30% { transform: scale(0.65); opacity: 0.5; }
+}
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-6deg); }
+  50% { transform: rotate(6deg); }
+}
+
+/* 넓은 화면: 본문 양옆 빈 공간에 세로로 서 있기 */
+.side-pals {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 5;
+  width: calc((100vw - 720px) / 2);
+  display: none;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  pointer-events: none;
+}
+.side-pals.left { left: 0; }
+.side-pals.right { right: 0; }
+.side-pals .pal { width: clamp(84px, 9vw, 120px); }
+.side-pals .pal:nth-child(2) { transform: translateX(-18%); }
+.side-pals.right .pal:nth-child(2) { transform: translateX(18%); }
+@media (min-width: 1000px) {
+  .side-pals { display: flex; }
+}
+
+/* 좁은 화면: 상단 영역 아래 모서리에 서 있기 */
+.hero-pals {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 2px;
+  display: none;
+  justify-content: space-between;
+  padding: 0 6px;
+  pointer-events: none;
+}
+.hero-pals .pal { width: 64px; }
+.hero-pals .pal::before { font-size: 12px; }
+.hero-pals .pal:first-child::before { left: 0; transform: translate(0, 6px) scale(0.8); }
+.hero-pals .pal:first-child:hover::before { transform: translate(0, -4px) scale(1); }
+.hero-pals .pal:last-child::before { left: auto; right: 0; transform: translate(0, 6px) scale(0.8); }
+.hero-pals .pal:last-child:hover::before { transform: translate(0, -4px) scale(1); }
+@media (max-width: 999px) {
+  .hero { padding-bottom: 84px; }
+  .hero-pals { display: flex; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pal-body, .pal-shadow, .pal:hover .pal-body { animation: none; }
+}
+
 footer { text-align: center; color: var(--muted); font-size: 13px; padding: 0 16px 40px; }
 
 .toast {

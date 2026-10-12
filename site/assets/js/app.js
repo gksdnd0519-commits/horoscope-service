@@ -69,6 +69,27 @@ function setupGrid() {
   }
 }
 
+// 페이지 옆에 서 있는 캐릭터들. 누르면 그 별자리 결과로 이동한다.
+const GREETINGS = ["안녕!", "반가워!", "오늘 운세 볼래?", "나랑 놀자!", "콩콩!", "운세 보러 왔어?"];
+function setupPals() {
+  let i = 0;
+  for (const box of document.querySelectorAll("[data-pals]")) {
+    for (const id of box.dataset.pals.split(",")) {
+      const sign = getSign(id);
+      const pal = el("button", "pal");
+      pal.type = "button";
+      pal.style.setProperty("--delay", `${(i++ * 0.37) % 1.6}s`);
+      pal.dataset.say = `${GREETINGS[i % GREETINGS.length]} 난 ${MASCOTS[id].name}`;
+      pal.setAttribute("aria-label", `${sign.name} ${MASCOTS[id].name} 운세 보기`);
+      const body = el("span", "pal-body");
+      body.innerHTML = characterSVG(sign, { bg: false });
+      pal.append(body, el("span", "pal-shadow"));
+      pal.addEventListener("click", () => select(id, state.tab));
+      box.append(pal);
+    }
+  }
+}
+
 function setupTabs() {
   for (const btn of document.querySelectorAll("[role=tab]")) {
     btn.addEventListener("click", () => {
@@ -276,5 +297,6 @@ $("#today-label").textContent = `${Number(mo)}월 ${Number(d)}일 오늘의 별�
 setupForm();
 setupGrid();
 setupTabs();
+setupPals();
 readUrl();
 render();
